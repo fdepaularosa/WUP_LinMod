@@ -35,6 +35,14 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 
 ### scatterplot
 
+```{r}
+plot(SIMS~ARM,data=data)
+model1=lm(SIMS~ARM, data=data)
+abline(model1)
+```
+
+This scatterplot shows that 
+
 ### Numerical results
 
 
