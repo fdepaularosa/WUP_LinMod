@@ -41,7 +41,7 @@ model.1=lm(SIMS~ARM, data=data)
 abline(model.1)
 ```
 
-This scatterplot shows that simulated strength 
+This scatterplot shows that simulated strength score increases when ARM strength increases
 
 ### Numerical results
 
@@ -57,7 +57,7 @@ cor(SIMS~ARM,data=data)
 summary.lm(model.1)
 ```
 
-model.1 shows that the intercept and coefficient of ARM are both significantly different from 0. the 
+model.1 shows that the intercept and coefficient of ARM are both significantly different from 0. 
 
 #### Predict at target point
 
@@ -82,7 +82,7 @@ model.2=lm(SIMS~GRIP, data=data)
 abline(model.2)
 ```
 
-
+This scatterplot shows that when grip stength increases SIMS scores will increase also. 
 
 ### Numerical results 
 
@@ -90,11 +90,17 @@ abline(model.2)
 cor(SIMS~GRIP,data=data)
 ```
 
+numerical result 0.64 which shows a moderate positive correlation between SIMS score and GRIP strength. 
+
 ### Inferential  (Build model.2)
 
 ```{r}
 summary.lm(model.2)
 ```
+
+model.2 shows us that everytime GRIP strength increases, the SIMS score will increase by 0.045.  
+
+model.2 shows that the intercept and coefficient of ARM are both significantly different from 0.   
 
 #### predict model.2 at target point
 ```{r}
@@ -113,18 +119,44 @@ At ARM=88, GRIP=94, the predicted SIMS score is 0.54. the 95% confidence interva
 ## Model 3 SIM~ARM+GRIP
 
 ### Numerical results (cor)
-
+```{r}
+cor(SIMS~ARM+GRIP,data=data)
+```
 `
+numerical result 0.73 which shows a moderate positive correlation between SIMS score and ARM+GRIP strength. 
   
 ### Inferential  (Build 2-dimentional model.3)
+```{r}
+model.3=lm(SIMS~ARM+GRIP, data=data)
+
+```
 
 #### predict model.3 at target point
-  
+```{r}
+targetPoint= data.frame (GRIP=94, ARM=88)
+predictInt = predict(model.3, targetPoint, interval = 'prediction')
+print (predictInt)
+```
+
+At ARM=88, GRIP=94, the predicted SIMS score is 0.15. the 95% confidence interval for that score is SIMS between -2.13 and 2.43.
 
 ## Comparing nested models ANOVA Test
 
 ### Model.1 vs Model.3
+```{r}
+anova(model.1,model.3)
+```
+The res.df is different from model.1 and model.3 which means the variance for ARM + GRIP is not similar to the variance of ARM. 
+
 ### Model.2 vs Model.3
+```{r}
+anova(model.2,model.3)
+```
+Res.df is also different from model.2 and model.3 which means the variance for ARM + GRIP is not similar to the variance of of GRIP. 
 
 ## Informally compare Model.1 with model.2
+```{r}
+anova(model.1,model.2)
+```
 
+Res. Df is the same for the two models which means the variance of GRIP is similar to the variance of ARM.
