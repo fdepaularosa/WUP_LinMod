@@ -37,36 +37,77 @@ data <- read.csv(file="https://onlinestatbook.com/case_studies_rvls/physical_str
 
 ```{r}
 plot(SIMS~ARM,data=data)
-model1=lm(SIMS~ARM, data=data)
-abline(model1)
+model.1=lm(SIMS~ARM, data=data)
+abline(model.1)
 ```
+
+This scatterplot shows that simulated strength 
 
 ### Numerical results
 
+```{r}
+cor(SIMS~ARM,data=data)
+```
+
+0.69 shows moderate positive correlation between SIMS score and ARM strength. 
 
 ### Inferential  (Build model.1)
 
+```{r}
+summary.lm(model.1)
+```
+
+model.1 shows that the intercept and coefficient of ARM are both significantly different from 0. the 
+
 #### Predict at target point
 
+```{r}
+targetPoint= data.frame (GRIP=94, ARM=88)
+predictInt = predict(model.1, targetPoint, interval = 'prediction')
+print (predictInt)
+```
+
+At ARM=88, GRIP=94, the predicted SIMS score is 0.71. the 95% confidence interval for that score is SIMS between -1.73 and 3.14.
 
 #### scatterplot with model fit
-  
+
 
 ## Model 2 SIM~GRIP
 
 ### Now add in scatterplot
 
+```{r}
+plot(SIMS~GRIP,data=data)
+model.2=lm(SIMS~GRIP, data=data)
+abline(model.2)
+```
+
+
 
 ### Numerical results 
 
+```{r}
+cor(SIMS~GRIP,data=data)
+```
 
 ### Inferential  (Build model.2)
-  
+
+```{r}
+summary.lm(model.2)
+```
 
 #### predict model.2 at target point
+```{r}
+targetPoint= data.frame (GRIP=94, ARM=88)
+predictInt = predict(model.2, targetPoint, interval = 'prediction')
+print (predictInt)
+```
+
+At ARM=88, GRIP=94, the predicted SIMS score is 0.54. the 95% confidence interval for that score is SIMS between -3.11 and 2.04.
+
 
 #### now add the model fit to our plot for model.2
-  
+
 
 
 ## Model 3 SIM~ARM+GRIP
